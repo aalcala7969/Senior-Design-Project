@@ -49,8 +49,40 @@ Builder.load_string("""
 
 <TicTacToeGameScreen>:
     BoxLayout:
+        orientation: 'vertical'
         Label:
-            text: 'TicTacToeGame'           
+            text: 'TicTacToeGame'
+        GridLayout:
+            id: 'tictactoe_board'
+            rows: 3
+            cols: 3
+            Button:
+                text: '0'                 
+                on_press: root.get_move(0)   
+            Button:
+                text: '1'
+                on_press: root.get_move(1)
+            Button:
+                text: '2'
+                on_press: root.get_move(2)
+            Button:
+                text: '3'
+                on_press: root.get_move(3)
+            Button:
+                text: '4'
+                on_press: root.get_move(4)
+            Button:
+                text: '5'
+                on_press: root.get_move(5)
+            Button:
+                text: '6'
+                on_press: root.get_move(6)
+            Button:
+                text: '7'
+                on_press: root.get_move(7)
+            Button:
+                text: '8'
+                on_press: root.get_move(8)
         Button:
             text: 'Quit'
             on_press: root.manager.current = 'menu'         
@@ -70,8 +102,11 @@ class TicTacToeGameScreen(Screen):
     def on_enter(self, *args):
         self.func()
         return super().on_enter(*args)
+    # TODO: implement tictactoe button functions here
     def func(self):
         print("i'm here")
+    def get_move(self, choice: int):
+        print(choice)
     pass
 
 class HangmanScreen(Screen):
