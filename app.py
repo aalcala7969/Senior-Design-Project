@@ -6,6 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+import random
 
 
 # this can be put into a .kv file later
@@ -201,6 +202,20 @@ class TicTacToeGameScreen(Screen):
         # switch turns 
         self.current_player = "O" if self.current_player == "X" else "X"
         self.ids.status_label.text = f"Player {self.current_player}'s Turn"
+        # AI makes choice (simulates second player)
+        if self.vs_ai and self.current_player == self.ai:
+            self.ai_move()
+    
+    def ai_move(self):
+        _, move = minimax(self.board_state, self.ai, self.ai, self.human)
+        if move is None:
+            move = random.choice(valid_moves(self.board_state)) if valid_moves(self.board_state) else None
+        if move is not None:
+            # Simulate pressing the button
+            # NOTE: index is reversed on the gridlayout compared to the board
+            button = self.ids.board.children[8 - move] 
+            self.make_move(move, button)
+
     
 
 
