@@ -89,7 +89,65 @@ Builder.load_string("""
 """)
 
 # TicTacToe Game Logic
+WIN_LINES = (
+    (0, 1, 2),
+    (3, 4, 5),
+    (6, 7, 8),
+    (0, 3, 6),
+    (1, 4, 7),
+    (2, 5, 8),
+    (0, 4, 8),
+    (2, 4, 6),
+)
 
+def check_winner(board):
+    for a, b, c in WIN_LINES:
+        if board[a] != "" and board[a] == board[b] == board[c]:
+            return board[a]
+    return None
+
+def is_draw(board):
+    return all(cell != "" for cell in board) and check_winner(board) is None
+
+def valid_moves(board):
+    return [i for i, v in enumerate(board) if v == ""]
+
+def minimax(board, player, ai, human):
+    winner = check_winner(board)
+    if winner == ai:
+        return 1, None
+    if winner == human:
+        return -1, None
+    if is_draw(board):
+        return 0, None
+
+    moves = valid_moves(board)
+    if player == ai:
+        best_score = -2
+        best_move = None
+        for m in moves:
+            board[m] = ai
+            score, _ = minimax(board, human, ai, human)
+            board[m] = ""
+            if score > best_score:
+                best_score = score
+                best_move = m
+                if score == 1:
+                    break
+        return best_score, best_move
+    else:
+        best_score = 2
+        best_move = None
+        for m in moves:
+            board[m] = human
+            score, _ = minimax(board, ai, ai, human)
+            board[m] = ""
+            if score < best_score:
+                best_score = score
+                best_move = m
+                if score == -1:
+                    break
+        return best_score, best_move
 
 # Kivy Screens
 
