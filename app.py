@@ -73,7 +73,7 @@ Builder.load_string("""
         padding: 20
         Label:
             id: status_label
-            text: 'Player Xs Turn'
+            text: "Player X's Turn"
             size_hint_y: None
             height: 40
         GridLayout:
@@ -163,7 +163,12 @@ class TicTacToeScreen(Screen):
 
 class TicTacToeGameScreen(Screen):
     def on_enter(self, *args):
+        self.current_player = "X"
         self.board_state = [""] * 9
+        self.vs_ai = getattr(self, "vs_ai", False)
+        self.human = "X"
+        self.ai = "O"
+        self.ids.status_label.text = "Player X's Turn"
         self.draw_board()
         return super().on_enter(*args)
     
@@ -180,8 +185,24 @@ class TicTacToeGameScreen(Screen):
             grid.add_widget(btn)
 
     def make_move(self, index, button):
-        print(index)
-    pass
+        # invalid move or game is already won
+        if self.board_state[index] != "" or check_winner(self.board_state):
+            return
+        # update board state and GUI to match
+        self.board_state[index] = self.current_player
+        button.text = self.current_player
+        # check if move results in a win
+        winner = check_winner(self.board_state)
+        if winner:
+            return
+        elif is_draw(self.board_state):
+            return
+        
+        # switch turns 
+        self.current_player = "O" if self.current_player == "X" else "X"
+        self.ids.status_label.text = f"Player {self.current_player}'s Turn"
+    
+
 
 class HangmanScreen(Screen):
     pass
