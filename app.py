@@ -150,8 +150,6 @@ def minimax(board, player, ai, human):
         return best_score, best_move
 
 # Kivy Screens
-
-
 class TitleScreen(Screen):
     pass
 
@@ -165,13 +163,24 @@ class TicTacToeScreen(Screen):
 
 class TicTacToeGameScreen(Screen):
     def on_enter(self, *args):
-        self.func()
+        self.board_state = [""] * 9
+        self.draw_board()
         return super().on_enter(*args)
-    # TODO: implement tictactoe button functions here
-    def func(self):
-        print("i'm here")
-    def get_move(self, choice: int):
-        print(choice)
+    
+    #tictactoe button widgets dynamically created
+    def draw_board(self):
+        grid = self.ids.board
+        grid.clear_widgets()
+        for i in range(9):
+            btn = Button(
+                text=self.board_state[i],
+                font_size=48,
+                on_press=lambda b, idx=i: self.make_move(idx, b),
+            )
+            grid.add_widget(btn)
+
+    def make_move(self, index, button):
+        print(index)
     pass
 
 class HangmanScreen(Screen):
