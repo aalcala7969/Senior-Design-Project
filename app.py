@@ -195,8 +195,10 @@ class TicTacToeGameScreen(Screen):
         # check if move results in a win
         winner = check_winner(self.board_state)
         if winner:
+            self.show_popup(f"Player {winner} wins!")
             return
         elif is_draw(self.board_state):
+            self.show_popup("It's a draw.")
             return
         
         # switch turns 
@@ -216,6 +218,14 @@ class TicTacToeGameScreen(Screen):
             button = self.ids.board.children[8 - move] 
             self.make_move(move, button)
 
+    def show_popup(self, message):
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        layout.add_widget(Label(text=message))
+        btn = Button(text="Play Again", size_hint_y=None, height=40)
+        layout.add_widget(btn)
+        popup = Popup(title="Game Over", content=layout, size_hint=(0.6, 0.4))
+        btn.bind(on_press=lambda *a: (popup.dismiss(), self.on_enter()))
+        popup.open()
     
 
 
