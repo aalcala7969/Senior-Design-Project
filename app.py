@@ -1,36 +1,47 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
+
 
 # this can be put into a .kv file later
+# KIVY LAYOUT
 Builder.load_string("""
 <TitleScreen>:
     BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 40
         Button:
             text: 'Go to menu'
             on_press: root.manager.current = 'menu'
         Button:
             text: 'Quit'
+            on_press: app.stop()
 
 <MenuScreen>:
     BoxLayout:
         orientation: 'vertical'
+        spacing: 10
+        padding: 40
         BoxLayout:
             orientation: 'horizontal'
+            spacing: 10
             Button:
-                text: 'TicTacToe button'
+                text: 'Play TicTacToe'
                 on_press: root.manager.current = 'ttt'
             Button:
-                text: 'Hangman button'
+                text: 'Hangman (WIP)'
                 on_press: root.manager.current = 'hm'
             Button:
-                text: 'Connect 4 button'
+                text: 'Connect 4 (WIP)'
                 on_press: root.manager.current = 'c4'
             Button:
-                text: 'Dots and Boxes button'
+                text: 'Dots and Boxes (WIP)'
                 on_press: root.manager.current = 'dnb'
         Button:
             text: 'Back to title'
@@ -38,11 +49,19 @@ Builder.load_string("""
 
 <TicTacToeScreen>:
     BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 40
         Label:
             text: 'Here is how to play...'
+        Label:
+            text: 'Choose mode' 
         Button:
-            text: 'Play'
-            on_press: root.manager.current = 'ttt_game'
+            text: 'Two Players'
+            on_press: root.start_game(vs_ai=False)
+        Button:
+            text: 'Play vs CPU'
+            on_press: root.start_game(vs_ai=True)
         Button:
             text: 'Menu'
             on_press: root.manager.current = 'menu'
@@ -50,43 +69,29 @@ Builder.load_string("""
 <TicTacToeGameScreen>:
     BoxLayout:
         orientation: 'vertical'
+        spacing: 10
+        padding: 20
         Label:
-            text: 'TicTacToeGame'
+            id: status_label
+            text: 'Player Xs Turn'
+            size_hint_y: None
+            height: 40
         GridLayout:
-            id: 'tictactoe_board'
+            id: board
             rows: 3
             cols: 3
-            Button:
-                text: '0'                 
-                on_press: root.get_move(0)   
-            Button:
-                text: '1'
-                on_press: root.get_move(1)
-            Button:
-                text: '2'
-                on_press: root.get_move(2)
-            Button:
-                text: '3'
-                on_press: root.get_move(3)
-            Button:
-                text: '4'
-                on_press: root.get_move(4)
-            Button:
-                text: '5'
-                on_press: root.get_move(5)
-            Button:
-                text: '6'
-                on_press: root.get_move(6)
-            Button:
-                text: '7'
-                on_press: root.get_move(7)
-            Button:
-                text: '8'
-                on_press: root.get_move(8)
+            spacing: 5
         Button:
-            text: 'Quit'
+            text: 'Back to Menu'
+            size_hint_y: None
+            height: 40
             on_press: root.manager.current = 'menu'         
 """)
+
+# TicTacToe Game Logic
+
+
+# Kivy Screens
 
 
 class TitleScreen(Screen):
@@ -96,7 +101,9 @@ class MenuScreen(Screen):
     pass
 
 class TicTacToeScreen(Screen):
-    pass
+    def start_game(self, vs_ai=False):
+        self.manager.get_screen('ttt_game').vs_ai = vs_ai
+        self.manager.current = 'ttt_game'
 
 class TicTacToeGameScreen(Screen):
     def on_enter(self, *args):
