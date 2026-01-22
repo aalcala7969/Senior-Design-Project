@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Gaming Arm - RGA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Logo in top left -->
+    <div class="logo-container">
+        <div class="logo-text">RGA</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="app-container">
+        <!-- Title Screen -->
+        <div class="screen active" id="title-screen">
+            <div class="screen-content">
+                <h1 class="title-animate">Robotic Gaming Arm</h1>
+                <p class="subtitle-animate">We hope you enjoy!</p>
+                <div class="button-container">
+                    <button class="btn-primary pulse btn-large" onclick="showScreen('menu-screen')">Let's Play!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Screen -->
+        <div class="screen" id="menu-screen">
+            <div class="screen-content">
+                <h2 class="menu-title">What would you like to play?</h2>
+                <div class="game-grid">
+                    <div class="game-card" onclick="showScreen('ttt-screen')">
+                        <div class="game-icon">✕</div>
+                        <h3>Tic Tac Toe</h3>
+                    </div>
+                    <div class="game-card" onclick="showScreen('hangman-screen')">
+                        <div class="game-icon">🎯</div>
+                        <h3>Hangman</h3>
+                    </div>
+                    <div class="game-card disabled">
+                        <div class="game-icon">🔴</div>
+                        <h3>Connect 4</h3>
+                        <span class="coming-soon">Coming Soon</span>
+                    </div>
+                    <div class="game-card disabled">
+                        <div class="game-icon">📦</div>
+                        <h3>Dots & Boxes</h3>
+                        <span class="coming-soon">Coming Soon</span>
+                    </div>
+                </div>
+                <button class="btn-back" onclick="showScreen('title-screen')">← Back</button>
+            </div>
+        </div>
+
+        <!-- Tic Tac Toe Screen -->
+        <div class="screen" id="ttt-screen">
+            <div class="screen-content">
+                <h2>Tic Tac Toe</h2>
+                <p class="game-instruction">Get three in a row to win!</p>
+                <div class="mode-selection">
+                    <button class="btn-mode" onclick="startTicTacToe(true)">Play against the robot</button>
+                    <button class="btn-mode" onclick="startTicTacToe(false)">Play on whiteboard</button>
+                </div>
+                <button class="btn-back" onclick="showScreen('menu-screen')">← Back to Menu</button>
+            </div>
+        </div>
+
+        <!-- Tic Tac Toe Game Screen -->
+        <div class="screen" id="ttt-game-screen">
+            <div class="screen-content">
+                <div class="game-header">
+                    <h2 id="ttt-status">Player X's Turn</h2>
+                </div>
+                <div class="ttt-board" id="ttt-board"></div>
+                <button class="btn-back" onclick="showScreen('menu-screen')">← Back to Menu</button>
+            </div>
+        </div>
+
+        <!-- Hangman Screen -->
+        <div class="screen" id="hangman-screen">
+            <div class="screen-content">
+                <h2>Hangman</h2>
+                <p class="game-instruction">Guess the word before you run out of lives!</p>
+                <div class="mode-selection">
+                    <button class="btn-mode" onclick="startHangman(true)">Play against the robot</button>
+                    <button class="btn-mode" onclick="startHangman(false)">Play on whiteboard</button>
+                </div>
+                <button class="btn-back" onclick="showScreen('menu-screen')">← Back to Menu</button>
+            </div>
+        </div>
+
+        <!-- Hangman Game Screen -->
+        <div class="screen" id="hangman-game-screen">
+            <div class="screen-content">
+                <div class="hangman-header">
+                    <div class="word-display" id="word-display">_ _ _ _ _</div>
+                    <div class="game-info">
+                        <div class="info-item">
+                            <span class="info-label">Wrong:</span>
+                            <span id="wrong-guesses">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Lives:</span>
+                            <span id="lives">6</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="letter-grid" id="letter-grid"></div>
+                <div class="status-message" id="status-message">Tap a letter to guess!</div>
+                <button class="btn-back" onclick="showScreen('menu-screen')">← Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="modal" id="game-modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Game Over</h2>
+            <p id="modal-message"></p>
+            <button class="btn-primary" onclick="closeModal()">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
