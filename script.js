@@ -6,7 +6,7 @@ let tttVsAI = false;
 let tttGameOver = false;
 
 // Hangman game state
-let hangmanWord = '';
+let hangmanWord = ''; //test changes
 let correctGuesses = new Set();
 let wrongGuesses = new Set();
 let hangmanGameOver = false;
