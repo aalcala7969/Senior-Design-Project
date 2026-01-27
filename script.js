@@ -7,7 +7,7 @@ let tttGameOver = false;
 let tttDifficulty = 'impossible'; // 'easy', 'medium', 'hard', 'impossible'
 
 // Hangman game state
-let hangmanWord = '';
+let hangmanWord = ''; //test changes
 let correctGuesses = new Set();
 let wrongGuesses = new Set();
 let hangmanGameOver = false;
