@@ -59,10 +59,25 @@
                 <h2>Tic Tac Toe</h2>
                 <p class="game-instruction">Get three in a row to win!</p>
                 <div class="mode-selection">
-                    <button class="btn-mode" onclick="startTicTacToe(true)">Play against the robot</button>
+                    <button class="btn-mode" onclick="showScreen('ttt-difficulty-screen')">Play against the robot</button>
                     <button class="btn-mode" onclick="startTicTacToe(false)">Play on whiteboard</button>
                 </div>
                 <button class="btn-back" onclick="showScreen('menu-screen')">← Back to Menu</button>
+            </div>
+        </div>
+
+        <!-- Tic Tac Toe Difficulty Selection Screen -->
+        <div class="screen" id="ttt-difficulty-screen">
+            <div class="screen-content">
+                <h2>Choose Difficulty</h2>
+                <p class="game-instruction">Select the difficulty level for the robotic arm</p>
+                <div class="mode-selection">
+                    <button class="btn-mode" onclick="startTicTacToeWithDifficulty('easy')">Easy</button>
+                    <button class="btn-mode" onclick="startTicTacToeWithDifficulty('medium')">Medium</button>
+                    <button class="btn-mode" onclick="startTicTacToeWithDifficulty('hard')">Hard</button>
+                    <button class="btn-mode" onclick="startTicTacToeWithDifficulty('impossible')">Impossible</button>
+                </div>
+                <button class="btn-back" onclick="showScreen('ttt-screen')">← Back</button>
             </div>
         </div>
 

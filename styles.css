@@ -96,7 +96,7 @@ body {
     font-size: 4rem;
     font-weight: bold;
     margin-bottom: 20px;
-    background: linear-gradient(45deg, #ffffff, #ff6b6b, #ffffff);
+    background: linear-gradient(45deg, #5e5555, #efb4b4, #ed6262);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -144,7 +144,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2e2e2e 0%, #764ba2 100%);
     color: white;
     min-width: 250px;
 }

@@ -4,6 +4,7 @@ let tttBoard = ['', '', '', '', '', '', '', '', ''];
 let tttCurrentPlayer = 'X';
 let tttVsAI = false;
 let tttGameOver = false;
+let tttDifficulty = 'impossible'; // 'easy', 'medium', 'hard', 'impossible'
 
 // Hangman game state
 let hangmanWord = '';
@@ -16,6 +17,7 @@ const HANGMAN_WORDS = [
     "python", "gpu", "jestonnano", "matrix", "serial",
     "school", "sdsu", "robot", "thread", "gui",
     "professor", "hand", "arm", "sensor", "display",
+    "paolini",
 ];
 
 const MAX_MISSES = 6;
@@ -119,6 +121,17 @@ function startTicTacToe(vsAI) {
     updateTicTacToeStatus();
 }
 
+function startTicTacToeWithDifficulty(difficulty) {
+    tttDifficulty = difficulty;
+    tttVsAI = true;
+    tttBoard = ['', '', '', '', '', '', '', '', ''];
+    tttCurrentPlayer = 'X';
+    tttGameOver = false;
+    showScreen('ttt-game-screen');
+    renderTicTacToeBoard();
+    updateTicTacToeStatus();
+}
+
 function renderTicTacToeBoard() {
     const board = document.getElementById('ttt-board');
     board.innerHTML = '';
@@ -166,16 +179,119 @@ function makeTicTacToeMove(index, cell) {
 }
 
 function makeAIMove() {
-    const [, move] = minimax(tttBoard, 'O', 'O', 'X');
+    let move = null;
+    
+    switch(tttDifficulty) {
+        case 'easy':
+            move = getEasyAIMove();
+            break;
+        case 'medium':
+            move = getMediumAIMove();
+            break;
+        case 'hard':
+            move = getHardAIMove();
+            break;
+        case 'impossible':
+        default:
+            const [, minimaxMove] = minimax(tttBoard, 'O', 'O', 'X');
+            move = minimaxMove;
+            break;
+    }
+    
     if (move !== null) {
         const cells = document.querySelectorAll('.ttt-cell');
         makeTicTacToeMove(move, cells[move]);
     }
 }
 
+// Easy AI: Makes random moves, allowing user to win easily
+function getEasyAIMove() {
+    const moves = validMoves(tttBoard);
+    if (moves.length === 0) return null;
+    // Just pick a random move
+    return moves[Math.floor(Math.random() * moves.length)];
+}
+
+// Medium AI: Sometimes blocks or wins, but often makes random moves
+function getMediumAIMove() {
+    const moves = validMoves(tttBoard);
+    if (moves.length === 0) return null;
+    
+    // 30% chance to make optimal move, 70% random
+    if (Math.random() < 0.3) {
+        // Try to win
+        for (let move of moves) {
+            tttBoard[move] = 'O';
+            if (checkWinner(tttBoard) === 'O') {
+                tttBoard[move] = '';
+                return move;
+            }
+            tttBoard[move] = '';
+        }
+        
+        // Try to block
+        for (let move of moves) {
+            tttBoard[move] = 'X';
+            if (checkWinner(tttBoard) === 'X') {
+                tttBoard[move] = '';
+                return move;
+            }
+            tttBoard[move] = '';
+        }
+    }
+    
+    // Random move
+    return moves[Math.floor(Math.random() * moves.length)];
+}
+
+// Hard AI: Mostly optimal but occasionally makes mistakes
+function getHardAIMove() {
+    const moves = validMoves(tttBoard);
+    if (moves.length === 0) return null;
+    
+    // 80% chance to make optimal move, 20% random
+    if (Math.random() < 0.8) {
+        // Try to win
+        for (let move of moves) {
+            tttBoard[move] = 'O';
+            if (checkWinner(tttBoard) === 'O') {
+                tttBoard[move] = '';
+                return move;
+            }
+            tttBoard[move] = '';
+        }
+        
+        // Try to block
+        for (let move of moves) {
+            tttBoard[move] = 'X';
+            if (checkWinner(tttBoard) === 'X') {
+                tttBoard[move] = '';
+                return move;
+            }
+            tttBoard[move] = '';
+        }
+        
+        // Use minimax for optimal move
+        const [, minimaxMove] = minimax(tttBoard, 'O', 'O', 'X');
+        if (minimaxMove !== null) {
+            return minimaxMove;
+        }
+    }
+    
+    // Random move 20% of the time
+    return moves[Math.floor(Math.random() * moves.length)];
+}
+
 function updateTicTacToeStatus() {
     const status = document.getElementById('ttt-status');
-    status.textContent = `Player ${tttCurrentPlayer}'s Turn`;
+    if (tttVsAI) {
+        const difficultyText = tttDifficulty.charAt(0).toUpperCase() + tttDifficulty.slice(1);
+        status.textContent = tttCurrentPlayer === 'X' 
+            ? `Your Turn (Difficulty: ${difficultyText})` 
+            : `Robotic Arm's Turn (Difficulty: ${difficultyText})`;
+    } else {
+        status.textContent = `Player ${tttCurrentPlayer}'s Turn`;
+    }
 }
 
 // Hangman functions
