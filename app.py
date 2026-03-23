@@ -65,55 +65,60 @@ Builder.load_string("""
             pos: self.pos
             size: self.size
     
-    BoxLayout:
-        orientation: 'vertical'
-        spacing: 40
-        padding: [60, 100, 60, 80]
-        
-        # RGA branding - bold hero title
-        Label:
-            text: 'RGA'
-            font_size: 120
+    ScrollView:
+        do_scroll_x: False
+        bar_width: 8
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 28
+            padding: [40, 36, 40, 36]
             size_hint_y: None
-            height: 140
-            color: 0.95, 0.32, 0.32, 1
-            bold: True
-            outline_color: 0.7, 0.15, 0.15, 0.9
-            outline_width: 2
-        
-        Label:
-            text: 'Robotic Gaming Arm'
-            font_size: 36
-            size_hint_y: None
-            height: 50
-            color: 0.85, 0.88, 0.95, 1
-            bold: True
-        
-        Label:
-            text: 'We hope you enjoy!'
-            font_size: 24
-            size_hint_y: None
-            height: 38
-            color: 1, 1, 1, 1
-        
-        Widget:
-            size_hint_y: 1
-        
-        StyledButton:
-            text: "Let's Play!"
-            font_size: 56
-            size_hint_y: None
-            height: 130
-            background_color: 0.15, 0.52, 0.82, 1
-            on_press: root.manager.current = 'menu'
-        
-        StyledButton:
-            text: 'Maybe Later'
-            font_size: 28
-            size_hint_y: None
-            height: 70
-            background_color: 0.22, 0.24, 0.32, 1
-            on_press: app.stop()
+            height: self.minimum_height
+            
+            Label:
+                text: 'RGA'
+                font_size: 96
+                size_hint_y: None
+                height: 130
+                color: 0.95, 0.32, 0.32, 1
+                bold: True
+                outline_color: 0.7, 0.15, 0.15, 0.9
+                outline_width: 2
+            
+            Label:
+                text: 'Robotic Gaming Arm'
+                font_size: 32
+                size_hint_y: None
+                height: 48
+                color: 0.85, 0.88, 0.95, 1
+                bold: True
+            
+            Label:
+                text: 'We hope you enjoy!'
+                font_size: 22
+                size_hint_y: None
+                height: 36
+                color: 1, 1, 1, 1
+            
+            Widget:
+                size_hint_y: None
+                height: 24
+            
+            StyledButton:
+                text: "Let's Play!"
+                font_size: 48
+                size_hint_y: None
+                height: 110
+                background_color: 0.15, 0.52, 0.82, 1
+                on_press: root.manager.current = 'menu'
+            
+            StyledButton:
+                text: 'Maybe Later'
+                font_size: 26
+                size_hint_y: None
+                height: 64
+                background_color: 0.22, 0.24, 0.32, 1
+                on_press: app.stop()
 
 <MenuScreen>:
     canvas.before:
@@ -123,52 +128,67 @@ Builder.load_string("""
             pos: self.pos
             size: self.size
     
-    BoxLayout:
-        orientation: 'vertical'
-        spacing: 28
-        padding: [50, 60, 50, 50]
-        
-        Label:
-            text: 'What would you like to play?'
-            font_size: 34
-            size_hint_y: None
-            height: 55
-            color: 0.95, 0.95, 1.0, 1
-            bold: True
-        
-        GridLayout:
-            cols: 2
+    ScrollView:
+        do_scroll_x: False
+        bar_width: 8
+        BoxLayout:
+            orientation: 'vertical'
             spacing: 20
-            size_hint_y: 1
-            padding: [0, 15, 0, 15]
-            
-            CardButton:
-                text: 'Tic Tac Toe'
-                background_color: 0.12, 0.3, 0.38, 1
-                on_press: root.manager.current = 'ttt'
-            
-            CardButton:
-                text: 'Hangman'
-                background_color: 0.1, 0.35, 0.35, 1
-                on_press: root.manager.current = 'hm'
-            
-            CardButton:
-                text: 'Connect 4'
-                background_color: 0.08, 0.32, 0.4, 1
-                on_press: root.show_under_development()
-            
-            CardButton:
-                text: 'Dots & Boxes'
-                background_color: 0.1, 0.38, 0.32, 1
-                on_press: root.show_under_development()
-        
-        StyledButton:
-            text: '← Back'
-            font_size: 20
+            padding: [36, 28, 36, 28]
             size_hint_y: None
-            height: 50
-            background_color: 0.85, 0.2, 0.2, 1
-            on_press: root.manager.current = 'title'
+            height: self.minimum_height
+            
+            Label:
+                text: 'RGA'
+                font_size: 64
+                size_hint_y: None
+                height: 86
+                color: 0.95, 0.32, 0.32, 1
+                bold: True
+            
+            Label:
+                text: 'What would you like to play?'
+                font_size: 28
+                size_hint_y: None
+                height: 44
+                color: 0.95, 0.95, 1.0, 1
+                bold: True
+            
+            GridLayout:
+                cols: 2
+                spacing: 16
+                size_hint_y: None
+                height: 216
+                row_default_height: 100
+                row_force_default: True
+                
+                CardButton:
+                    text: 'Tic Tac Toe'
+                    background_color: 0.12, 0.3, 0.38, 1
+                    on_press: root.manager.current = 'ttt'
+                
+                CardButton:
+                    text: 'Hangman'
+                    background_color: 0.1, 0.35, 0.35, 1
+                    on_press: root.manager.current = 'hm'
+                
+                CardButton:
+                    text: 'Connect 4'
+                    background_color: 0.08, 0.32, 0.4, 1
+                    on_press: root.show_under_development()
+                
+                CardButton:
+                    text: 'Dots & Boxes'
+                    background_color: 0.1, 0.38, 0.32, 1
+                    on_press: root.show_under_development()
+            
+            StyledButton:
+                text: '← Back'
+                font_size: 20
+                size_hint_y: None
+                height: 50
+                background_color: 0.85, 0.2, 0.2, 1
+                on_press: root.manager.current = 'title'
 
 <TicTacToeScreen>:
     canvas.before:
@@ -922,6 +942,7 @@ class MainApp(App):
     
     def build(self):
         Window.clearcolor = (0, 0, 0, 1)
+        Window.fullscreen = True
         root = ScreenManager(transition=SlideTransition(duration=0.25))
         
         # Register all the screens with the screen manager
