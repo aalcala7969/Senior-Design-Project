@@ -939,10 +939,13 @@ class HangmanGameScreen(Screen):
 
 class MainApp(App):
     """Main application - Kivy runs this when the app starts"""
-    
+
+    def on_start(self):
+        # Maximized window (fullscreen windowed), not exclusive fullscreen
+        Window.maximize()
+
     def build(self):
         Window.clearcolor = (0, 0, 0, 1)
-        Window.fullscreen = True
         root = ScreenManager(transition=SlideTransition(duration=0.25))
         
         # Register all the screens with the screen manager
