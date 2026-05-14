@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /catkin_ws
 
 # Copy everything from Jetson to the container
-COPY ./catkin_ws/
+COPY . /catkin_ws/
 
 # Compile ROS nodes
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make"
