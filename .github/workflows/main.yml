@@ -1,0 +1,41 @@
+name: Jetson ROS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # Phase 1: Build and Test on the cloud
+  cloud-ci-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Dry Run Docker Build
+        # Proves the Dockerfile compiles without errors
+        run: docker build -t senior_design_test .
+
+  # Phase 2: Deploy to Jetson Nano
+  deploy-to-hardware:
+    needs: cloud-ci-test # Only runs when cloud test passes
+    runs-on: self-hosted
+
+    steps:
+      - name: Navigate to Workspace and Pull Latest Code
+        run: |
+          cd ~/catkin_ws/src/senior_design
+          git fetch origin
+          git reset --hard origin/main
+
+      - name: Rebuild the Docker Environment
+        run: |
+          cd ~/catkin_ws/src/senior_design
+          docker-compose build
+
+      - name: Launch ROS Vision Nodes
+        # -d flag runs in 'detached' mode (runs in background)
+        run: |
+          cd ~/catkin_ws/src/senior_design
+          docker-compose down
+          docker-compose up -d
