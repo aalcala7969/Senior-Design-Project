@@ -1,0 +1,14 @@
+<launch>
+    <param name="robot_description"
+           command="$(find xacro)/xacro $(find senior_design)/urdf/dofbot.urdf" />
+
+    <node pkg="senior_design" type="esp32_bridge.py"
+          name="esp32_serial_bridge" output="screen" />
+
+    <node pkg="senior_design" type="master.py"
+          name="rga_master" output="screen" />
+
+    <node pkg="rga_ik" type="rga_ik_solver"
+          name="rga_ik_solver" output="screen" />
+
+    </launch>

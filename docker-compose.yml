@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+    ros_vision_pipeline:
+        build: .
+        container_name: capstone_vision_node
+        volumes:
+            # Mounts local Jetson code to the container
+            # When changing a script in Jupyter, updates inside Docker immediately
+            - ./src:/catkin_ws/src
+        network_node: "host" # Required for ROS nodes to communicate easily
+        tty: true
